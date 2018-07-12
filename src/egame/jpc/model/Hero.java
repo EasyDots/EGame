@@ -1,5 +1,6 @@
 package egame.jpc.model;
 
+import egame.jpc.model.ui.GLevelCircle;
 import egame.jpc.model.ui.GProgressBar;
 import egame.jpc.view.HeroView;
 import egame.jpc.world.World;
@@ -16,6 +17,8 @@ public class Hero extends Cell{
 	private boolean goHoming = false;
 	/*回城进度条*/
 	public GProgressBar gpb;
+    /*经验圈*/
+    public GLevelCircle gLevelCircle;
 	/*回城时间*/
 	public int goHomeTime = 1500;
 	/*回城特效外圈半径差*/
@@ -42,6 +45,7 @@ public class Hero extends Cell{
 		// TODO Auto-generated constructor stub
 		this.mainCity = mainCity;
 		this.gpb = new GProgressBar(world);
+        this.gLevelCircle = new GLevelCircle(world);
 
 	}
 	public Hero(World world, int x, int y){
@@ -53,9 +57,14 @@ public class Hero extends Cell{
 	public void init() {
 		// TODO Auto-generated method stub
 		super.init();
+        /*回城进度条初始化*/
 		this.gpb.init();
 		this.gpb.setVisibility(false);
 		this.gpb.setTag("回城");
+
+        /*经验圈初始化*/
+        this.gLevelCircle.init();
+
 		this.r = 60;
 		this.color = Color.yellow;
 		this.name = "英雄";
@@ -106,4 +115,6 @@ public class Hero extends Cell{
 
 
 	}
+
+
 }

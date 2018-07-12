@@ -119,7 +119,10 @@ public class World implements EasyGame{
 					case KeyEvent.VK_RIGHT:
 						hero2.setSpeedX(0);
 						break;
-
+                    /*按U演示经验圈增加*/
+                    case KeyEvent.VK_U:
+                        hero1.gLevelCircle.addExp(2);
+                        break;
 					default:
 						break;
 				}
