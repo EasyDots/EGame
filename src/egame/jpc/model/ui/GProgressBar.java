@@ -41,9 +41,9 @@ public class GProgressBar extends Model {
 	protected int end = 100;
 	protected int cur = 0;
 	protected int delta = 1;
-	/*显示时间*/
+	/*显示时间 单位秒*/
 	public float showTime = 1;
-	public boolean canceled = false;
+
 	public boolean isVisibility() {
 		return visibility;
 	}

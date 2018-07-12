@@ -13,7 +13,8 @@ import egame.jpc.model.ui.GProgressBar;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class World implements EasyGame{
 	/*窗口*/
@@ -26,7 +27,7 @@ public class World implements EasyGame{
 	/*是否销毁*/
 	private boolean destroyed;
 	/*模型集合*/
-	LinkedList<IRepeat> modelList = new LinkedList<IRepeat>();
+	List<IRepeat> modelList = new CopyOnWriteArrayList<IRepeat>();
 	/*线程*/
 	Thread thread;
 	/*细胞主角*/
@@ -46,13 +47,7 @@ public class World implements EasyGame{
 	 * 创建玩家角色
 	 */
 	public void createPlayer() {
-//		/*主城池*/
-//		mainCity = new MainCity(this);
-//		mainCity.init();
-//		mainCity.setX(10);
-//		mainCity.setY(400);
-//		mainCity.setColor(Color.red);
-//		System.out.println("创建了一个主城");
+
 		/*创建玩家1*/
 		mainCity1 = new MainCity(this);
 		mainCity1.init();
@@ -62,13 +57,13 @@ public class World implements EasyGame{
 		hero1.init();
 
 		/*创建玩家2*/
-		mainCity2 = new MainCity(this);
-		mainCity2.init();
-		mainCity2.setX(400);
-		mainCity2.setY(400);
-		hero2 = new Hero(this, mainCity2);
-		hero2.init();
-		hero2.setX(400);
+//		mainCity2 = new MainCity(this);
+//		mainCity2.init();
+//		mainCity2.setX(400);
+//		mainCity2.setY(400);
+//		hero2 = new Hero(this, mainCity2);
+//		hero2.init();
+//		hero2.setX(400);
 
 //		LinkedList<Model> heros = new LinkedList<Model>();
 //		heros.add(new Hero(this,mainCity));
@@ -172,21 +167,24 @@ public class World implements EasyGame{
 		});
 		/*实例化线程类*/
 		thread = new Thread(new Runnable() {
-
 			@Override
-			synchronized public void run() {
+			 public void run() {
 				// TODO Auto-generated method stub
-				while(!destroyed){
-					Iterator<IRepeat> li = modelList.iterator();
-					while(li.hasNext()){
-						li.next().repeat();
-					}
-					try {
+				synchronized (modelList){
+					while(!destroyed){
+						Iterator<IRepeat> li = modelList.iterator();
+						while(li.hasNext()){
+							li.next().repeat();
 
-						Thread.sleep(Conf.FPS);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+						}
+						try {
+
+							Thread.sleep(Conf.FPS);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+				}
+
 				}
 			}
 		});
