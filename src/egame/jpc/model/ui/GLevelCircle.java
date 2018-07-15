@@ -1,6 +1,8 @@
 package egame.jpc.model.ui;
 
 import egame.jpc.model.Model;
+import egame.jpc.model.Point;
+import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.GView;
 import egame.jpc.view.ui.GLevelCircleView;
 import egame.jpc.world.World;
@@ -10,7 +12,7 @@ import java.awt.*;
 /**
  * 经验值圈
  */
-public class GLevelCircle extends Model {
+public class GLevelCircle extends Model implements IRepeat {
 
     public int getStart() {
         return start;
@@ -184,7 +186,8 @@ public class GLevelCircle extends Model {
         this.cur = 0;
         this.level = 1;
         this.setVisibility(true);
-
+        world.setRepeatable(this);
+        world.getMframe().revalidate();
     }
 
     @Override
@@ -200,15 +203,22 @@ public class GLevelCircle extends Model {
     public void addExp(int exp) {
         /*每10ms加1经验*/
         /*当前的经验值满*/
-        cur += exp;
-        if (cur >= end) {
-            level++;
-            cur = start;
-            if (level == 10)
-                cur = end;
+        if (level < maxLevel) {
+            cur += exp;
+            if (cur >= end) {
+                level++;
+                cur = start;
+                if (level >= 10)
+                    cur = end;
+            }
         }
+    }
 
-
+    @Override
+    public void destroy() {
+        super.destroy();
+        world.remove(this);
+        world.removeRepeatable(this);
     }
 
     /**
@@ -241,5 +251,14 @@ public class GLevelCircle extends Model {
                 //setVisibility(false);
             }
         }).start();
+    }
+
+    public void setFollow(Model model) {
+        setPoint(new Point(model.getPoint().x - 20, model.getPoint().y - 30));
+    }
+
+    @Override
+    public void repeat() {
+
     }
 }

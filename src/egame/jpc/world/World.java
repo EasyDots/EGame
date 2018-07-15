@@ -8,18 +8,20 @@ import egame.jpc.model.Hero;
 import egame.jpc.model.MainCity;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
-import egame.jpc.model.ui.GProgressBar;
+import egame.jpc.world.input.GameListener;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * 游戏世界
+ */
 public class World implements EasyGame{
 	/*窗口*/
 	private GameFrame gframe;
 	private MainFrame mframe;
+
 	public MainFrame getMframe() {
 		return mframe;
 	}
@@ -30,19 +32,14 @@ public class World implements EasyGame{
 	List<IRepeat> modelList = new CopyOnWriteArrayList<IRepeat>();
 	/*线程*/
 	Thread thread;
-	/*细胞主角*/
-//	private Cell cell;
-//	private MainCity mainCity;
-//	private Cell cell2;
-//	private Hero myHero;
-	private GProgressBar gpb;
-	private MainCity mainCity1;
-	private Hero hero1;
-	private MainCity mainCity2;
-	private Hero hero2;
+
+	public MainCity mainCity1;
+	public Hero hero1;
+
 	public World(MainFrame frame){
 		this.mframe = frame;
 	}
+
 	/**
 	 * 创建玩家角色
 	 */
@@ -55,25 +52,8 @@ public class World implements EasyGame{
 		mainCity1.setY(400);
 		hero1 = new Hero(this, mainCity1);
 		hero1.init();
-
-		/*创建玩家2*/
-//		mainCity2 = new MainCity(this);
-//		mainCity2.init();
-//		mainCity2.setX(400);
-//		mainCity2.setY(400);
-//		hero2 = new Hero(this, mainCity2);
-//		hero2.init();
-//		hero2.setX(400);
-
-//		LinkedList<Model> heros = new LinkedList<Model>();
-//		heros.add(new Hero(this,mainCity));
-//		heros.get(0).init();
-//		/*创建一个自己的英雄*/
-//		myHero = new Hero(this, mainCity);
-//		myHero.init();
-
-
 	}
+
 	/**
 	 * 初始化游戏世界
 	 */
@@ -81,112 +61,24 @@ public class World implements EasyGame{
 		/*创建游戏视图框架*/
 		this.gframe = new GameFrame(mframe);
 		/*设置按键事件*/
-		mframe.addKeyListener(new KeyListener() {
-
-
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_W:
-						hero1.setSpeedY(0);
-						break;
-					case KeyEvent.VK_A:
-						hero1.setSpeedX(0);
-						break;
-					case KeyEvent.VK_S:
-						hero1.setSpeedY(0);
-						break;
-					case KeyEvent.VK_D:
-						hero1.setSpeedX(0);
-						break;
-					case KeyEvent.VK_UP:
-						hero2.setSpeedY(0);
-						break;
-					case KeyEvent.VK_LEFT:
-						hero2.setSpeedX(0);
-						break;
-					case KeyEvent.VK_DOWN:
-						hero2.setSpeedY(0);
-						break;
-					case KeyEvent.VK_RIGHT:
-						hero2.setSpeedX(0);
-						break;
-                    /*按U演示经验圈增加*/
-                    case KeyEvent.VK_U:
-                        hero1.gLevelCircle.addExp(2);
-                        break;
-					default:
-						break;
-				}
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_W:
-						hero1.setSpeedY(-1);
-						break;
-					case KeyEvent.VK_A:
-						hero1.setSpeedX(-1);
-						break;
-					case KeyEvent.VK_S:
-						hero1.setSpeedY(1);
-						break;
-					case KeyEvent.VK_D:
-						hero1.setSpeedX(1);
-						break;
-					case KeyEvent.VK_UP:
-						hero2.setSpeedY(-1);
-						break;
-					case KeyEvent.VK_LEFT:
-						hero2.setSpeedX(-1);
-						break;
-					case KeyEvent.VK_DOWN:
-						hero2.setSpeedY(1);
-						break;
-					case KeyEvent.VK_RIGHT:
-						hero2.setSpeedX(1);
-						break;
-					case KeyEvent.VK_R:
-						/*回城*/
-						hero1.goHome();
-						break;
-					case KeyEvent.VK_0:
-						/*回城*/
-						hero2.goHome();
-					default:
-						break;
-				}
-			}
-		});
+		mframe.addKeyListener(new GameListener(this).getKeyListener());
 		/*实例化线程类*/
 		thread = new Thread(new Runnable() {
 			@Override
-			 public void run() {
+			public void run() {
 				// TODO Auto-generated method stub
 				synchronized (modelList){
 					while(!destroyed){
 						Iterator<IRepeat> li = modelList.iterator();
 						while(li.hasNext()){
 							li.next().repeat();
-
 						}
 						try {
-
 							Thread.sleep(Conf.FPS);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-				}
+					}
 
 				}
 			}
@@ -195,19 +87,20 @@ public class World implements EasyGame{
 		thread.start();
 
 	}
+
 	/**
 	 * 销毁游戏世界
 	 */
 	public void destroy(){
 		destroyed = true;
 	}
+
 	/**
 	 * 游戏逻辑
 	 */
 	@Override
 	public void logic() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -219,8 +112,8 @@ public class World implements EasyGame{
 	 */
 	public void setRepeatable(IRepeat iRepeat) {
 		modelList.add(iRepeat);
-
 	}
+
 	/**
 	 * 删除模型
 	 * @param iRepeat

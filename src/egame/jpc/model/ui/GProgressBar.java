@@ -2,6 +2,7 @@ package egame.jpc.model.ui;
 
 
 import egame.jpc.model.Model;
+import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.GView;
 import egame.jpc.view.ui.GProgressBarView;
 import egame.jpc.world.World;
@@ -11,7 +12,7 @@ import egame.jpc.world.World;
  * @author Administrator
  *
  */
-public class GProgressBar extends Model {
+public class GProgressBar extends Model implements IRepeat {
 	public int getStart() {
 		return start;
 	}
@@ -61,6 +62,8 @@ public class GProgressBar extends Model {
 		// TODO Auto-generated method stub
 		super.init();
 		this.tag = "进度条";
+		world.setRepeatable(this);
+		world.getMframe().revalidate();
 	}
 	@Override
 	public void createView() {
@@ -97,5 +100,18 @@ public class GProgressBar extends Model {
 				setVisibility(false);
 			}
 		}).start();
+	}
+
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		world.remove(this);
+		world.removeRepeatable(this);
+	}
+
+	@Override
+	public void repeat() {
+
 	}
 }

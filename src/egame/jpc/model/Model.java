@@ -16,6 +16,18 @@ public abstract class Model implements IModel {
 	protected int x;
 	/*模型位置y*/
 	protected int y;
+
+	public Point getPoint() {
+		return point;
+	}
+
+	public void setPoint(Point point) {
+		this.point = point;
+		this.x = point.x;
+		this.y = point.y;
+	}
+
+	protected Point point;
 	/*模型颜色*/
 	protected Color color;
 	/*模型标签*/
@@ -30,12 +42,14 @@ public abstract class Model implements IModel {
 		createView();
 	}
 
+
 	/**
 	 * 初始化游戏模型
 	 */
 	public void init(){
 		this.x = 100;
 		this.y = 100;
+		this.point = new Point(x, y);
 		this.color = Color.BLACK;
 		this.tag = "模型";
 
@@ -54,12 +68,14 @@ public abstract class Model implements IModel {
 	}
 	public void setX(int x) {
 		this.x = x;
+		this.point.x = x;
 	}
 	public int getY() {
 		return y;
 	}
 	public void setY(int y) {
 		this.y = y;
+		this.point.y = y;
 	}
 	public Color getColor() {
 		return color;

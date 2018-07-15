@@ -1,6 +1,5 @@
 package egame.jpc.model;
 
-import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.CellView;
 import egame.jpc.view.GView;
@@ -12,7 +11,7 @@ import egame.jpc.world.World;
  * @author Administrator
  *
  */
-public class Cell extends Model implements IModel,IRepeat {
+public class Cell extends Model implements IRepeat {
 	/*细胞半径*/
 	protected int r = 1;
 	/*细胞速度*/
@@ -61,8 +60,9 @@ public class Cell extends Model implements IModel,IRepeat {
 	@Override
 	public void repeat() {
 		// TODO Auto-generated method stub
-		x += speedX;
-		y += speedY;
+		setX(getX() + speedX);
+		setY(getY() + speedY);
+
 		world.invalidate(this);
 		world.getMframe().revalidate();
 	}

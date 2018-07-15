@@ -26,6 +26,7 @@ public class GProgressBarView extends GView {
 		// TODO Auto-generated method stub
 		super.paint(g);
 		if(gProgressBar.isVisibility()){
+			System.out.println("go home");
 			g.setColor(Color.black);
 			g.draw3DRect(this.gProgressBar.getX(), this.gProgressBar.getY(), 100, 10, false);
 			g.fill3DRect(this.gProgressBar.getX(), this.gProgressBar.getY(), gProgressBar.getCur(), 10, true);
