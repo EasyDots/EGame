@@ -61,8 +61,11 @@ public class GameListener {
 
                     /*按U演示经验圈增加*/
                     case KeyEvent.VK_U:
-                        world.hero1.gLevelCircle.addExp(5);
+                        world.hero1.upgrade();
                         break;
+                        /*按1演示使用血瓶*/
+                    case KeyEvent.VK_1:
+                        world.hero1.useTreatment();
                     default:
                         break;
                 }

@@ -71,11 +71,11 @@ public class Hero extends Cell{
 		/*经验圈初始化*/
 		this.gLevelCircle.init();
 		this.gHp.init();
-		this.gHp.setCur(100);
+		this.gHp.setCur(20);
 		this.gHp.setColor(Color.RED);
 		this.gHp.setVisibility(true);
 		this.gMp.init();
-		this.gMp.setCur(100);
+		this.gMp.setCur(15);
 		this.gMp.setColor(Color.BLUE);
 		this.gMp.setVisibility(true);
 		this.r = 60;
@@ -127,7 +127,6 @@ public class Hero extends Cell{
 
 	/**
 	 * 英雄移动
-	 *
 	 * @param direction 方向
 	 */
 	public void move(GameListener.Direction direction) {
@@ -173,5 +172,16 @@ public class Hero extends Cell{
 				break;
 		}
 
+	}
+
+	/**
+	 * 英雄升级
+	 */
+	public void upgrade(){
+		this.gLevelCircle.addExp(2);
+	}
+
+	public void useTreatment(){
+		this.gHp.setCur(this.gHp.getCur()+2);
 	}
 }

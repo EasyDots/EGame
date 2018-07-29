@@ -36,6 +36,7 @@ public class GStatusBar extends Model implements IModel, IRepeat {
     }
 
     public void setCur(int cur) {
+        if(cur > 100 || cur < 0)return;
         this.cur = cur;
     }
 
