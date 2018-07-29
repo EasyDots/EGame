@@ -5,6 +5,7 @@ import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.GView;
 import egame.jpc.view.ui.GLevelCircleView;
 import egame.jpc.world.World;
+import egame.jpc.world.common.Vector2;
 
 import java.awt.*;
 
@@ -12,6 +13,137 @@ import java.awt.*;
  * 经验值圈
  */
 public class GLevelCircle extends Model implements IRepeat {
+    /*开始位置*/
+    protected int start = 0;
+    /*结束位置*/
+    protected int end = 100;
+    /*当前位置*/
+    protected int cur = 0;
+    /*每单位时间变化的值*/
+    protected int delta = 1;
+    /*经验圈默认可见*/
+    protected boolean visibility = true;
+    /*等级文字颜色*/
+    protected Color levelTextColor = Color.WHITE;
+    /*外圈颜色*/
+    protected Color outsideColor = Color.BLACK;
+    /*内圈颜色*/
+    protected Color insideColor = Color.BLACK;
+    /*经验条颜色*/
+    protected Color expBarColor = Color.YELLOW;
+    /*外圈半径*/
+    protected int outsideR = 40;
+    /*内圈半径缩放*/
+    protected float insideRScale = 0.6f;
+    /*经验条半径缩放*/
+    protected float expRScale = 0.8f;
+    protected int minLevel = 1;
+    protected int level = 1;
+    protected int maxLevel = 10;
+    public GLevelCircle(World world) {
+        super(world);
+    }
+    public GLevelCircle(World world, int x, int y, int cur, int level , boolean visibility){
+        this(world);
+        this.position.set(x,y);
+        this.cur = cur;
+        this.level = level;
+        this.visibility = visibility;
+    }
+
+    public GLevelCircle(World world, Vector2 position, int cur, int level , boolean visibility){
+        this(world);
+        this.position.set(position);
+        this.cur = cur;
+        this.level = level;
+        this.visibility = visibility;
+    }
+    @Override
+    public void createView() {
+        this.gview = new GLevelCircleView(this);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+//        this.setPosition(this.getPosition().x-40, this.getPosition().y-50);
+        this.tag = "经验圈";
+//        this.cur = 0;
+//        this.level = 1;
+//        this.setVisibility(true);
+        world.add(this);
+        world.setRepeatable(this);
+    }
+
+    @Override
+    public GView getView() {
+        return this.gview;
+    }
+
+    /**
+     * 经验增加
+     *
+     * @param exp 经验值
+     */
+    public void addExp(int exp) {
+        /*每10ms加1经验*/
+        /*当前的经验值满*/
+        if (level < maxLevel) {
+            cur += exp;
+            if (cur >= end) {
+                level++;
+                cur = start;
+                if (level >= 10)
+                    cur = end;
+            }
+        }
+    }
+
+    @Override
+    public void destroy() {
+        world.remove(this);
+        world.removeRepeatable(this);
+    }
+
+    /**
+     * 经验圈自增测试
+     */
+    public void doProcess() {
+        init();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    /*每10ms加1经验*/
+                    for (cur = start; level < maxLevel; cur++) {
+                        Thread.sleep(10);
+                        /*当前的经验值满*/
+                        if (cur == end) {
+                            level++;
+                            cur = start;
+                            if (level == 10)
+                                cur = end;
+                        }
+
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //setVisibility(false);
+            }
+        }).start();
+    }
+
+    public void setFollow(Model model) {
+        setPosition(model.getX()-20, model.getY() - 30);
+    }
+
+    @Override
+    public void repeat() {
+        world.invalidate(this);
+        world.getMframe().revalidate();
+    }
 
     public int getStart() {
         return start;
@@ -53,17 +185,6 @@ public class GLevelCircle extends Model implements IRepeat {
         this.visibility = visibility;
     }
 
-    /*开始位置*/
-    protected int start = 0;
-    /*结束位置*/
-    protected int end = 100;
-    /*当前位置*/
-    protected int cur = 0;
-    /*每单位时间变化的值*/
-    protected int delta = 1;
-    /*经验圈默认可见*/
-    protected boolean visibility = true;
-
     public Color getLevelTextColor() {
         return levelTextColor;
     }
@@ -96,16 +217,6 @@ public class GLevelCircle extends Model implements IRepeat {
         this.insideRScale = insideRScale;
     }
 
-    /*等级文字颜色*/
-    protected Color levelTextColor = Color.WHITE;
-
-    /*外圈颜色*/
-    protected Color outsideColor = Color.BLACK;
-    /*内圈颜色*/
-    protected Color insideColor = Color.BLACK;
-    /*经验条颜色*/
-    protected Color expBarColor = Color.YELLOW;
-
     public Color getExpBarColor() {
         return expBarColor;
     }
@@ -113,31 +224,6 @@ public class GLevelCircle extends Model implements IRepeat {
     public void setExpBarColor(Color expBarColor) {
         this.expBarColor = expBarColor;
     }
-
-    /*外圈半径*/
-    protected int outsideR = 40;
-
-    public int getOutsideR() {
-        return outsideR;
-    }
-
-    public void setOutsideR(int outsideR) {
-        this.outsideR = outsideR;
-    }
-
-    /*内圈半径缩放*/
-    protected float insideRScale = 0.6f;
-
-    public float getExpRScale() {
-        return expRScale;
-    }
-
-    public void setExpRScale(float expRScale) {
-        this.expRScale = expRScale;
-    }
-
-    /*经验条半径缩放*/
-    protected float expRScale = 0.8f;
 
     public int getMinLevel() {
         return minLevel;
@@ -163,100 +249,18 @@ public class GLevelCircle extends Model implements IRepeat {
         this.maxLevel = maxLevel;
     }
 
-    protected int minLevel = 1;
-    protected int level = 1;
-    protected int maxLevel = 10;
-
-    public GLevelCircle(World world) {
-        super(world);
+    public int getOutsideR() {
+        return outsideR;
     }
 
-    @Override
-    public void createView() {
-        this.gview = new GLevelCircleView(this);
+    public void setOutsideR(int outsideR) {
+        this.outsideR = outsideR;
+    }
+    public float getExpRScale() {
+        return expRScale;
     }
 
-    @Override
-    public void init() {
-        super.init();
-        this.setVet2(this.getVet2().x-40, this.getVet2().y-50);
-        this.tag = "经验圈";
-        this.cur = 0;
-        this.level = 1;
-        this.setVisibility(true);
-        world.setRepeatable(this);
-        world.getMframe().revalidate();
-    }
-
-    @Override
-    public GView getView() {
-        return this.gview;
-    }
-
-    /**
-     * 经验增加
-     *
-     * @param exp 经验值
-     */
-    public void addExp(int exp) {
-        /*每10ms加1经验*/
-        /*当前的经验值满*/
-        if (level < maxLevel) {
-            cur += exp;
-            if (cur >= end) {
-                level++;
-                cur = start;
-                if (level >= 10)
-                    cur = end;
-            }
-        }
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        world.remove(this);
-        world.removeRepeatable(this);
-    }
-
-    /**
-     * 经验圈自增测试
-     */
-    public void doProcess() {
-        init();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                try {
-                    /*每10ms加1经验*/
-                    for (cur = start; level < maxLevel; cur++) {
-                        Thread.sleep(10);
-                        /*当前的经验值满*/
-                        if (cur == end) {
-                            level++;
-                            cur = start;
-                            if (level == 10)
-                                cur = end;
-                        }
-
-                    }
-
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                //setVisibility(false);
-            }
-        }).start();
-    }
-
-    public void setFollow(Model model) {
-        setVet2(model.getVet2().x-20, model.getVet2().y - 30);
-    }
-
-    @Override
-    public void repeat() {
-
+    public void setExpRScale(float expRScale) {
+        this.expRScale = expRScale;
     }
 }

@@ -9,12 +9,10 @@ public class MainCityView extends GView{
 	private MainCity mainCity;
 	public MainCityView(Model model) {
 		super(model);
-		// TODO Auto-generated constructor stub
 		this.mainCity = (MainCity) model;
 	}
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paint(g);
 
 		g.setColor(this.mainCity.getColor());

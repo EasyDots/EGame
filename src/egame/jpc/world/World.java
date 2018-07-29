@@ -7,6 +7,8 @@ import egame.jpc.model.MainCity;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.world.input.GameListener;
+
+import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -41,13 +43,31 @@ public class World implements EasyGame{
 	 * 创建玩家角色
 	 */
 	public void createPlayer() {
+//		for (int j = 0; j < 10; j++) {
+//			for (int i = 0; i < 40; i++) {
+//				Cell cell = new Cell(this,10+i*8,10+j*6,3);
+//				cell.init();
+//				cell.setTag("cell"+i+"."+j);
+//			}
+//		}
 
+
+//		Cell cell2 = new Cell(this,100,400,100);
+//		cell2.init();
+//		cell2.setTag("cell 2");
+//
+//		MainCity mainCity = new MainCity(this, 300, 400, 130, Color.RED);
+//		mainCity.init();
+
+
+
+//		cell.setPosition(300,100);
 		/*创建玩家1*/
-		mainCity1 = new MainCity(this);
+		mainCity1 = new MainCity(this,200,400,150,Color.RED);
 		mainCity1.init();
-		mainCity1.setVet2(100,400);
-		hero1 = new Hero(this, mainCity1);
+		hero1 = new Hero(this, mainCity1,60, Color.YELLOW);
 		hero1.init();
+//		Tower tower = new Tower(this, 400,300,150);
 	}
 
 	/**
@@ -62,7 +82,6 @@ public class World implements EasyGame{
 		thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				synchronized (modelList){
 					while(!destroyed){
 						Iterator<IRepeat> li = modelList.iterator();
@@ -96,7 +115,6 @@ public class World implements EasyGame{
 	 */
 	@Override
 	public void logic() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -115,17 +133,24 @@ public class World implements EasyGame{
 	 * @param iRepeat
 	 */
 	public void removeRepeatable(IRepeat iRepeat){
-		Iterator<IRepeat> it = modelList.iterator();
-		while(it.hasNext()){
-			IRepeat ir = it.next();
-			if(ir == iRepeat)
-				it.remove();
+		for (int i = 0; i < modelList.size(); i++) {
+			if(modelList.get(i).equals(iRepeat)){
+				modelList.remove(i);
+//				System.out.println("i remove");
+			}
 		}
+//		Iterator<IRepeat> it = modelList.iterator();
+//		while(it.hasNext()){
+//			IRepeat ir = it.next();
+//			if(ir == iRepeat){
+//				it.remove();
+//				System.out.println("it remove");
+//			}
+//		}
 	}
 	/*
 	 * 视图层操作
 	 */
-
 	public void add(IModel model){
 		gframe.dealWith(model.getView(), GameFrame.ADD_VIEW);
 	}

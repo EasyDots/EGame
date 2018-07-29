@@ -12,13 +12,11 @@ public class HeroView extends CellView implements ICollision {
 	
 	public HeroView(Model model) {
 		super(model);
-		// TODO Auto-generated constructor stub
 		this.hero = (Hero) model;
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
 		super.paint(g);
 		g.setColor(Color.RED);
 		g.drawArc(this.hero.getX(), this.hero.getY(), this.hero.getR(), this.hero.getR(), 0, 360);

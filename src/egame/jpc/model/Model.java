@@ -13,23 +13,8 @@ import java.awt.*;
  *
  */
 public abstract class Model implements IModel {
-	public int getX(){
-		return (int) vet2.x;
-	}
-	public int getY(){
-		return (int)vet2.y;
-	}
-	public Vector2 getVet2() {
-		return vet2;
-	}
 
-	public void setVet2(Vector2 vet2) {
-		this.vet2 = vet2;
-	}
-	public void setVet2(float x, float y) {
-		this.vet2 = new Vector2(x,y);
-	}
-	protected Vector2 vet2;
+	protected Vector2 position;
 	/*模型颜色*/
 	protected Color color;
 	/*模型标签*/
@@ -39,19 +24,22 @@ public abstract class Model implements IModel {
 	/*模型所在的游戏世界*/
 	protected World world;
 	public Model(World world) {
-		// TODO Auto-generated constructor stub
 		this.world = world;
+		this.position = new Vector2(100,100);
+		this.color = Color.BLACK;
+		this.tag = "模型";
 		createView();
 	}
-
 	/**
 	 * 初始化游戏模型
 	 */
 	public void init(){
-		this.vet2 = new Vector2(100,100);
-		this.color = Color.BLACK;
-		this.tag = "模型";
 		world.add(this);
+		world.getMframe().revalidate();
+		/**
+		 * 子类需要调用world.setRepeatable(this);
+		 * 将模型加入集合
+		 */
 	}
 	/**
 	 * 销毁游戏模型
@@ -71,12 +59,25 @@ public abstract class Model implements IModel {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-
 	public GView getGview() {
 		return gview;
 	}
 	public void setGview(GView gview) {
 		this.gview = gview;
 	}
-
+	public int getX(){
+		return (int) position.x;
+	}
+	public int getY(){
+		return (int)position.y;
+	}
+	public Vector2 getPosition() {
+		return position;
+	}
+	public void setPosition(Vector2 vet2) {
+		this.position = vet2;
+	}
+	public void setPosition(float x, float y) {
+		this.position = new Vector2(x,y);
+	}
 }

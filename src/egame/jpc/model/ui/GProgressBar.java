@@ -13,55 +13,26 @@ import egame.jpc.world.World;
  *
  */
 public class GProgressBar extends Model implements IRepeat {
-	public int getStart() {
-		return start;
-	}
-	public void setStart(int start) {
-		this.start = start;
-	}
-	public int getEnd() {
-		return end;
-	}
-	public void setEnd(int end) {
-		this.end = end;
-	}
-	public int getCur() {
-		return cur;
-	}
-	public void setCur(int cur) {
-		this.cur = cur;
-	}
-	public int getDelta() {
-		return delta;
-	}
-	public void setDelta(int delta) {
-		this.delta = delta;
-	}
-
 	protected int start = 0;
 	protected int end = 100;
 	protected int cur = 0;
 	protected int delta = 1;
 	/*显示时间 单位秒*/
 	public float showTime = 1;
-
-	public boolean isVisibility() {
-		return visibility;
-	}
-	public void setVisibility(boolean visibility) {
-		this.visibility = visibility;
-	}
-
-	protected boolean visibility = true;
 	public GProgressBar(World world) {
 		super(world);
+	}
+
+	public GProgressBar(World world, boolean visibility){
+		this(world);
+		this.visibility = visibility;
 	}
 	@Override
 	public void init() {
 		super.init();
 		this.tag = "进度条";
+		world.add(this);
 		world.setRepeatable(this);
-		world.getMframe().revalidate();
 	}
 	@Override
 	public void createView() {
@@ -99,13 +70,46 @@ public class GProgressBar extends Model implements IRepeat {
 
 	@Override
 	public void destroy() {
-		super.destroy();
 		world.remove(this);
 		world.removeRepeatable(this);
 	}
 
 	@Override
 	public void repeat() {
-
+		world.invalidate(this);
+		world.getMframe().revalidate();
 	}
+
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
+	}
+	public int getCur() {
+		return cur;
+	}
+	public void setCur(int cur) {
+		this.cur = cur;
+	}
+	public int getDelta() {
+		return delta;
+	}
+	public void setDelta(int delta) {
+		this.delta = delta;
+	}
+	public boolean isVisibility() {
+		return visibility;
+	}
+	public void setVisibility(boolean visibility) {
+		this.visibility = visibility;
+	}
+
+	protected boolean visibility = true;
 }

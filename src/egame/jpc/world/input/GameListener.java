@@ -18,9 +18,6 @@ public class GameListener {
         DOWN,
         RIGHT
     }
-
-    ;
-
     public KeyListener getKeyListener() {
         return keyListener;
     }
@@ -28,21 +25,16 @@ public class GameListener {
     public void setKeyListener(KeyListener keyListener) {
         this.keyListener = keyListener;
     }
-
     private KeyListener keyListener;
-
     public GameListener(World world) {
         this.world = world;
         init();
     }
-
     public void init() {
         keyListener = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -66,11 +58,15 @@ public class GameListener {
                         /*按1演示使用血瓶*/
                     case KeyEvent.VK_1:
                         world.hero1.useTreatment();
+                        break;
+                        /*按J普通攻击*/
+                    case KeyEvent.VK_J:
+
+                        break;
                     default:
                         break;
                 }
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -86,7 +82,6 @@ public class GameListener {
                     case KeyEvent.VK_D:
                         world.hero1.idle(Direction.RIGHT);
                         break;
-
                     case KeyEvent.VK_R:
                         /*回城*/
                         world.hero1.goHome();
@@ -96,7 +91,6 @@ public class GameListener {
                         break;
                 }
             }
-
         };
     }
 }
