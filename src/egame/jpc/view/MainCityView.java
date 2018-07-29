@@ -5,8 +5,6 @@ import egame.jpc.model.Model;
 
 import java.awt.*;
 
-
-
 public class MainCityView extends GView{
 	private MainCity mainCity;
 	public MainCityView(Model model) {

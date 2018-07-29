@@ -8,8 +8,6 @@ import egame.jpc.world.World;
 import egame.jpc.world.input.GameListener;
 
 import java.awt.*;
-
-
 public class Hero extends Cell{
 	/*英雄的名字*/
 	protected String name;
@@ -52,51 +50,38 @@ public class Hero extends Cell{
 
 	public Hero(World world, MainCity mainCity) {
 		super(world);
-		// TODO Auto-generated constructor stub
 		this.mainCity = mainCity;
 		this.gpb = new GProgressBar(world);
 		this.gLevelCircle = new GLevelCircle(world);
 		this.gHp = new GStatusBar(world);
 		this.gMp = new GStatusBar(world);
-
 	}
-
 	public Hero(World world, int x, int y){
 		super(world);
-		this.x = x;
-		this.y = y;
+		this.setVet2(x,y);
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		super.init();
 		/*回城进度条初始化*/
 		this.gpb.init();
 		this.gpb.setVisibility(false);
 		this.gpb.setTag("回城");
-
 		/*经验圈初始化*/
 		this.gLevelCircle.init();
-
 		this.gHp.init();
 		this.gHp.setCur(100);
 		this.gHp.setColor(Color.RED);
-
 		this.gHp.setVisibility(true);
-
-
 		this.gMp.init();
 		this.gMp.setCur(100);
 		this.gMp.setColor(Color.BLUE);
-
 		this.gMp.setVisibility(true);
-
 		this.r = 60;
 		this.color = Color.yellow;
 		this.name = "英雄";
 		this.tag = this.name;
-
 	}
 
 	@Override
@@ -105,32 +90,25 @@ public class Hero extends Cell{
 		super.createView();
 		this.gview = new HeroView(this);
 	}
-
 	/**
 	 * 回城方法
 	 */
 	public void goHome(){
 		this.goHoming = true;
-		this.gpb.setX(this.x-this.r/3);
-		this.gpb.setY(this.y+this.r+10);
+		this.gpb.setVet2(this.getVet2().x - this.r/3, this.getVet2().y + this.r+10);
 		this.gpb.showTime  = 1.5f;
 		this.gpb.doProcess();
 		thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-
 				try {
 					for (Hero.this.startD = 0; Hero.this.startD < 360; Hero.this.startD += 1) {
-
 						Thread.sleep(goHomeTime/(360));
 					}
-
-					Hero.this.x = mainCity.x+mainCity.getR()/5;
-					Hero.this.y = mainCity.y+mainCity.getR()/5;
+					Hero.this.getVet2().x = mainCity.getVet2().x+mainCity.getR()/5;
+					Hero.this.getVet2().y = mainCity.getVet2().y+mainCity.getR()/5;
 					Hero.this.goHoming = false;
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					thread.interrupt();
 				}
@@ -143,8 +121,8 @@ public class Hero extends Cell{
 	public void repeat() {
 		super.repeat();
 		this.gLevelCircle.setFollow(this);
-		this.gHp.setFollow(new Point(this.getX() + 20, this.getY() - 10));
-		this.gMp.setFollow(new Point(this.getX() + 20, this.getY()));
+		this.gHp.setFollow(this.getVet2().x + 20, this.getVet2().y - 10);
+		this.gMp.setFollow(this.getVet2().x + 20, this.getVet2().y);
 	}
 
 	/**
@@ -186,7 +164,6 @@ public class Hero extends Cell{
 				break;
 			case LEFT:
 				setSpeedX(0);
-
 				break;
 			case DOWN:
 				setSpeedY(0);

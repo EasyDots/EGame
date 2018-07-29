@@ -1,7 +1,6 @@
 package egame.jpc.model.ui;
 
 import egame.jpc.model.Model;
-import egame.jpc.model.Point;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.GView;
 import egame.jpc.view.ui.GLevelCircleView;
@@ -180,8 +179,7 @@ public class GLevelCircle extends Model implements IRepeat {
     @Override
     public void init() {
         super.init();
-        this.x -= 40;
-        this.y -= 50;
+        this.setVet2(this.getVet2().x-40, this.getVet2().y-50);
         this.tag = "经验圈";
         this.cur = 0;
         this.level = 1;
@@ -254,7 +252,7 @@ public class GLevelCircle extends Model implements IRepeat {
     }
 
     public void setFollow(Model model) {
-        setPoint(new Point(model.getPoint().x - 20, model.getPoint().y - 30));
+        setVet2(model.getVet2().x-20, model.getVet2().y - 30);
     }
 
     @Override

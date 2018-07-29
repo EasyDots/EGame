@@ -4,6 +4,7 @@ import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.CellView;
 import egame.jpc.view.GView;
 import egame.jpc.world.World;
+import egame.jpc.world.common.Vector2;
 
 
 /**
@@ -21,14 +22,17 @@ public class Cell extends Model implements IRepeat {
 
 	public Cell(World world) {
 		super(world);
-		this.x = 100;
-		this.y = 200;
+		this.setVet2(100,200);
 		this.r = 20;
 	}
-	public Cell(World world, int x, int y, int r){
+	public Cell(World world,int x, int y, int r){
 		super(world);
-		this.x = x;
-		this.y = y;
+		this.setVet2(x, y);
+		this.r = r;
+	}
+	public Cell(World world, Vector2 vector2, int r){
+		super(world);
+		this.setVet2(vector2);
 		this.r = r;
 	}
 	@Override
@@ -39,30 +43,24 @@ public class Cell extends Model implements IRepeat {
 	}
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		super.init();
 		world.setRepeatable(this);
 		world.getMframe().revalidate();
 	}
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		super.destroy();
 		world.remove(this);
 		world.removeRepeatable(this);
 	}
 	@Override
 	public GView getView() {
-		// TODO Auto-generated method stub
 		return this.gview;
 	}
 
 	@Override
 	public void repeat() {
-		// TODO Auto-generated method stub
-		setX(getX() + speedX);
-		setY(getY() + speedY);
-
+		setVet2(this.getVet2().x+ speedX, this.getVet2().y+ speedY);
 		world.invalidate(this);
 		world.getMframe().revalidate();
 	}

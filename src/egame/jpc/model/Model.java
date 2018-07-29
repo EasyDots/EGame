@@ -3,31 +3,33 @@ package egame.jpc.model;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.view.GView;
 import egame.jpc.world.World;
+import egame.jpc.world.common.Vector2;
 
 import java.awt.*;
 
 /**
  * 抽象模型类
- * @author Administrator
+ * @author EasyDots
  *
  */
 public abstract class Model implements IModel {
-	/*模型位置x*/
-	protected int x;
-	/*模型位置y*/
-	protected int y;
-
-	public Point getPoint() {
-		return point;
+	public int getX(){
+		return (int) vet2.x;
+	}
+	public int getY(){
+		return (int)vet2.y;
+	}
+	public Vector2 getVet2() {
+		return vet2;
 	}
 
-	public void setPoint(Point point) {
-		this.point = point;
-		this.x = point.x;
-		this.y = point.y;
+	public void setVet2(Vector2 vet2) {
+		this.vet2 = vet2;
 	}
-
-	protected Point point;
+	public void setVet2(float x, float y) {
+		this.vet2 = new Vector2(x,y);
+	}
+	protected Vector2 vet2;
 	/*模型颜色*/
 	protected Color color;
 	/*模型标签*/
@@ -42,17 +44,13 @@ public abstract class Model implements IModel {
 		createView();
 	}
 
-
 	/**
 	 * 初始化游戏模型
 	 */
 	public void init(){
-		this.x = 100;
-		this.y = 100;
-		this.point = new Point(x, y);
+		this.vet2 = new Vector2(100,100);
 		this.color = Color.BLACK;
 		this.tag = "模型";
-
 		world.add(this);
 	}
 	/**
@@ -60,22 +58,6 @@ public abstract class Model implements IModel {
 	 */
 	public void destroy(){
 		world.remove(this);
-	}
-
-
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-		this.point.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-		this.point.y = y;
 	}
 	public Color getColor() {
 		return color;
@@ -96,4 +78,5 @@ public abstract class Model implements IModel {
 	public void setGview(GView gview) {
 		this.gview = gview;
 	}
+
 }

@@ -9,7 +9,7 @@ import egame.jpc.world.World;
 
 /**
  * 进度条
- * @author Administrator
+ * @author EasyDots
  *
  */
 public class GProgressBar extends Model implements IRepeat {
@@ -55,11 +55,9 @@ public class GProgressBar extends Model implements IRepeat {
 	protected boolean visibility = true;
 	public GProgressBar(World world) {
 		super(world);
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		super.init();
 		this.tag = "进度条";
 		world.setRepeatable(this);
@@ -67,13 +65,11 @@ public class GProgressBar extends Model implements IRepeat {
 	}
 	@Override
 	public void createView() {
-		// TODO Auto-generated method stub
 		this.gview = new GProgressBarView(this);
 	}
 
 	@Override
 	public GView getView() {
-		// TODO Auto-generated method stub
 		return this.gview;
 	}
 
@@ -85,7 +81,6 @@ public class GProgressBar extends Model implements IRepeat {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					for(cur = start; cur < end; cur++){
 						for(int i = 0; i < showTime*10; i++){
@@ -94,7 +89,6 @@ public class GProgressBar extends Model implements IRepeat {
 					}
 
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				setVisibility(false);

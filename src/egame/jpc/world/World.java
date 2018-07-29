@@ -1,6 +1,4 @@
 package egame.jpc.world;
-
-
 import egame.jpc.frame.GameFrame;
 import egame.jpc.frame.MainFrame;
 import egame.jpc.game.conf.Conf;
@@ -9,7 +7,6 @@ import egame.jpc.model.MainCity;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.world.input.GameListener;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,8 +45,7 @@ public class World implements EasyGame{
 		/*创建玩家1*/
 		mainCity1 = new MainCity(this);
 		mainCity1.init();
-		mainCity1.setX(100);
-		mainCity1.setY(400);
+		mainCity1.setVet2(100,400);
 		hero1 = new Hero(this, mainCity1);
 		hero1.init();
 	}

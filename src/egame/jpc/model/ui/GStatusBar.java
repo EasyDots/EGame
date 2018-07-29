@@ -2,17 +2,17 @@ package egame.jpc.model.ui;
 
 
 import egame.jpc.model.Model;
-import egame.jpc.model.Point;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.view.GView;
 import egame.jpc.view.ui.GStatusBarView;
 import egame.jpc.world.World;
+import egame.jpc.world.common.Vector2;
 
 /**
  * 状态条
  *
- * @author Administrator
+ * @author ncgds.cn
  */
 public class GStatusBar extends Model implements IModel, IRepeat {
     public int getStart() {
@@ -65,12 +65,10 @@ public class GStatusBar extends Model implements IModel, IRepeat {
 
     public GStatusBar(World world) {
         super(world);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
         super.init();
         this.tag = "状态条";
         world.setRepeatable(this);
@@ -79,7 +77,6 @@ public class GStatusBar extends Model implements IModel, IRepeat {
 
     @Override
     public void createView() {
-        // TODO Auto-generated method stub
         this.gview = new GStatusBarView(this);
     }
 
@@ -92,7 +89,6 @@ public class GStatusBar extends Model implements IModel, IRepeat {
 
     @Override
     public GView getView() {
-        // TODO Auto-generated method stub
         return this.gview;
     }
 
@@ -111,7 +107,6 @@ public class GStatusBar extends Model implements IModel, IRepeat {
                             Thread.sleep(1);
                         }
                     }
-
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -127,7 +122,10 @@ public class GStatusBar extends Model implements IModel, IRepeat {
         world.getMframe().revalidate();
     }
 
-    public void setFollow(Point point) {
-        setPoint(new Point(point.x - 20, point.y - 30));
+    public void setFollow(Vector2 vector2) {
+        setVet2(vector2.x - 20, vector2.y - 30);
+    }
+    public void setFollow(float x, float y) {
+        setVet2(x - 20, y - 30);
     }
 }
