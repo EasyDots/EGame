@@ -1,5 +1,6 @@
 package egame.jpc.model;
 
+import egame.jpc.model.interfc.ICollision;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.model.ui.GStatusBar;
 import egame.jpc.view.GView;
@@ -15,9 +16,8 @@ import java.awt.*;
  * @Description: 防御塔
  * @Url: www.ncgds.cn
  */
-public class Tower extends Model implements IRepeat {
+public class Tower extends Model implements IRepeat,ICollision {
     /*防御塔攻击范围*/
-
     protected int attackRangeRadius;
     /*防御塔攻击速率,多少秒攻击1次*/
     protected float attackRate = 1F;
@@ -27,14 +27,18 @@ public class Tower extends Model implements IRepeat {
     protected int level;
     /*防御塔HP*/
     public GStatusBar gStatusBarHp;
+    /*敌人*/
+    public Hero hero;
     public Tower(World world) {
         super(world);
     }
 
-    public Tower(World world, int x, int y, int attackRangeRadius){
+    public Tower(World world, int x, int y, int attackRangeRadius, Hero hero){
         this(world);
         this.setPosition(x,y);
         this.attackRangeRadius = attackRangeRadius;
+        this.hero = hero;
+
     }
     public Tower(World world, Vector2 position, int attackRangeRadius){
         this(world);
@@ -65,6 +69,7 @@ public class Tower extends Model implements IRepeat {
     public void repeat() {
         world.invalidate(this);
         world.getMframe().revalidate();
+        onCollision();
     }
 
     @Override
@@ -105,4 +110,11 @@ public class Tower extends Model implements IRepeat {
         this.level = level;
     }
 
+    @Override
+    public void onCollision() {
+
+        if(Tools.circleAndCircleCollision(new Vector2(this.getX()+this.getAttackRangeRadius(),this.getY()+this.attackRangeRadius),this.getAttackRangeRadius(),new Vector2(this.hero.getX()+this.hero.getR(),this.hero.getY()+this.hero.getR()),this.hero.getR())){
+            System.out.println("attacked");
+        }
+    }
 }

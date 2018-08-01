@@ -6,8 +6,10 @@ import egame.jpc.view.GView;
 import egame.jpc.view.ui.GLevelCircleView;
 import egame.jpc.world.World;
 import egame.jpc.world.common.Vector2;
+import egame.jpc.world.graphics.Texture;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * 经验值圈
@@ -32,7 +34,7 @@ public class GLevelCircle extends Model implements IRepeat {
     /*经验条颜色*/
     protected Color expBarColor = Color.YELLOW;
     /*外圈半径*/
-    protected int outsideR = 40;
+    protected int outsideR = 26;
     /*内圈半径缩放*/
     protected float insideRScale = 0.6f;
     /*经验条半径缩放*/
@@ -40,8 +42,10 @@ public class GLevelCircle extends Model implements IRepeat {
     protected int minLevel = 1;
     protected int level = 1;
     protected int maxLevel = 10;
+    public ArrayList<Image> levelNumImgs;
     public GLevelCircle(World world) {
         super(world);
+        levelNumImgs = new ArrayList<Image>();
     }
     public GLevelCircle(World world, int x, int y, int cur, int level , boolean visibility){
         this(world);
@@ -49,6 +53,16 @@ public class GLevelCircle extends Model implements IRepeat {
         this.cur = cur;
         this.level = level;
         this.visibility = visibility;
+        try {
+                for (int i = 0; i < 2; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        Image image = Texture.getClipImg("res/num_120_46.png",24*j,23*i,24,23);
+                        levelNumImgs.add(image);
+                    }
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public GLevelCircle(World world, Vector2 position, int cur, int level , boolean visibility){
@@ -57,6 +71,16 @@ public class GLevelCircle extends Model implements IRepeat {
         this.cur = cur;
         this.level = level;
         this.visibility = visibility;
+        try {
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 5; j++) {
+                    Image image = Texture.getClipImg("res/num_120_46.png",24*j,23*i,24,23);
+                    levelNumImgs.add(image);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void createView() {
@@ -66,11 +90,7 @@ public class GLevelCircle extends Model implements IRepeat {
     @Override
     public void init() {
         super.init();
-//        this.setPosition(this.getPosition().x-40, this.getPosition().y-50);
         this.tag = "经验圈";
-//        this.cur = 0;
-//        this.level = 1;
-//        this.setVisibility(true);
         world.add(this);
         world.setRepeatable(this);
     }

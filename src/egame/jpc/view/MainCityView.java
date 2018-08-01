@@ -16,7 +16,7 @@ public class MainCityView extends GView{
 		super.paint(g);
 
 		g.setColor(this.mainCity.getColor());
-		g.drawArc(this.mainCity.getX(), this.mainCity.getY(), this.mainCity.getR(), this.mainCity.getR(), 0, 360);
+		g.drawArc(this.mainCity.getX(), this.mainCity.getY(), this.mainCity.getR()*2, this.mainCity.getR()*2, 0, 360);
 		//显示文本
 		g.drawString("主城", this.mainCity.getX(), this.mainCity.getY());
 		//System.out.println("主城刷新了");

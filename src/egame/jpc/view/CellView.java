@@ -13,7 +13,7 @@ public class CellView extends GView {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.RED);
-		g.drawArc(this.cell.getX(), this.cell.getY(), this.cell.getR(), this.cell.getR(), 0, 360);
+		g.drawArc(this.cell.getX(), this.cell.getY(), this.cell.getR()*2, this.cell.getR()*2, 0, 360);
 		//g.drawString(this.cell.getTag(), this.cell.getX(), this.cell.getY());
 	}
 }

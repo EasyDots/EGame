@@ -22,7 +22,8 @@ public class TowerView extends GView{
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.RED);
-        g.drawArc(this.tower.getX(), this.tower.getY(), this.tower.getAttackRangeRadius(), this.tower.getAttackRangeRadius(), 0, 360);
+        g.drawArc(this.tower.getX(), this.tower.getY(), this.tower.getAttackRangeRadius()*2, this.tower.getAttackRangeRadius()*2, 0, 360);
+      //  g.drawOval(this.tower.getX(), this.tower.getY(), this.tower.getAttackRangeRadius()*2, this.tower.getAttackRangeRadius()*2);
         g.drawString(this.tower.getTag(), this.tower.getX(), this.tower.getY());
 
     }

@@ -57,9 +57,22 @@ public class Hero extends Cell{
 		this.gHp = new GStatusBar(world,20,Color.RED, true);
 		this.gMp = new GStatusBar(world, 15, Color.BLUE, true);
 	}
-	public Hero(World world, MainCity mainCity, int r, Color color) {
+	public Hero(World world, MainCity mainCity,int x, int y ,int r, Color color) {
 		this(world);
 		this.mainCity = mainCity;
+		this.setPosition(x,y);
+		this.r = r;
+		this.color = color;
+		this.gpb = new GProgressBar(world, false);
+		this.gLevelCircle = new GLevelCircle(world,this.position,0,1,true);
+		this.gHp = new GStatusBar(world,20,Color.RED, true);
+		this.gMp = new GStatusBar(world, 15, Color.BLUE, true);
+	}
+
+	public Hero(World world, MainCity mainCity,Vector2 position ,int r, Color color) {
+		this(world);
+		this.mainCity = mainCity;
+		this.setPosition(position);
 		this.r = r;
 		this.color = color;
 		this.gpb = new GProgressBar(world, false);
@@ -207,6 +220,9 @@ public class Hero extends Cell{
 		this.goHoming = goHoming;
 	}
 
+	public String toString(){
+		return "hx:"+this.getX()+",hy:"+this.getY()+",hr:"+this.getR();
+	}
 	public String getName() {
 		return name;
 	}

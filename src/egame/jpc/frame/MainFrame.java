@@ -11,8 +11,6 @@ import java.awt.*;
 public class MainFrame extends JFrame{
 
 	public MainFrame() throws HeadlessException {
-		super();
-		// TODO Auto-generated constructor stub
 		setAlwaysOnTop(true);
 		setBounds(300, 100, 800, 600);
 		setVisible(true);
@@ -20,6 +18,7 @@ public class MainFrame extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
+
 
 
 }

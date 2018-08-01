@@ -1,9 +1,11 @@
 package egame.jpc.world;
+
 import egame.jpc.frame.GameFrame;
 import egame.jpc.frame.MainFrame;
 import egame.jpc.game.conf.Conf;
 import egame.jpc.model.Hero;
 import egame.jpc.model.MainCity;
+import egame.jpc.model.Tower;
 import egame.jpc.model.interfc.IModel;
 import egame.jpc.model.interfc.IRepeat;
 import egame.jpc.world.input.GameListener;
@@ -43,31 +45,13 @@ public class World implements EasyGame{
 	 * 创建玩家角色
 	 */
 	public void createPlayer() {
-//		for (int j = 0; j < 10; j++) {
-//			for (int i = 0; i < 40; i++) {
-//				Cell cell = new Cell(this,10+i*8,10+j*6,3);
-//				cell.init();
-//				cell.setTag("cell"+i+"."+j);
-//			}
-//		}
-
-
-//		Cell cell2 = new Cell(this,100,400,100);
-//		cell2.init();
-//		cell2.setTag("cell 2");
-//
-//		MainCity mainCity = new MainCity(this, 300, 400, 130, Color.RED);
-//		mainCity.init();
-
-
-
-//		cell.setPosition(300,100);
 		/*创建玩家1*/
-		mainCity1 = new MainCity(this,200,400,150,Color.RED);
+		mainCity1 = new MainCity(this,200,400,60,Color.RED);
 		mainCity1.init();
-		hero1 = new Hero(this, mainCity1,60, Color.YELLOW);
+		hero1 = new Hero(this, mainCity1,100,200,30, Color.YELLOW);
 		hero1.init();
-//		Tower tower = new Tower(this, 400,300,150);
+		Tower tower = new Tower(this, 400,100,40,hero1);
+		tower.init();
 	}
 
 	/**
